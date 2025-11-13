@@ -30,29 +30,29 @@
 // ================================================================
 
 // 音乐播放器基础配置
-window.EnableMusicPlayer = true; // 是否启用音乐播放器（true/false）
-window.MusicPlayerBallSize = 50; // 悬浮球尺寸（单位：像素）
-window.MusicPlayerAutoCollapse = 2600; // 自动收起面板的延迟时间（单位：毫秒）
-window.MusicPlayerTitle = "NeZha Music Player"; // 音乐播放器标题/默认艺术家名称（当文件名无"-"时使用）
-window.MusicPlayerAPIUrl = "https://music.588945.xyz/api/music/list"; // 音乐列表API地址
+window。EnableMusicPlayer = true; // 是否启用音乐播放器（true/false）
+window。MusicPlayerBallSize = 50; // 悬浮球尺寸（单位：像素）
+window。MusicPlayerAutoCollapse = 2600; // 自动收起面板的延迟时间（单位：毫秒）
+window。MusicPlayerTitle = "NeZha Music Player"; // 音乐播放器标题/默认艺术家名称（当文件名无"-"时使用）
+window.MusicPlayerAPIUrl = "https://music.zeabur.app/api/music/list"; // 音乐列表API地址
 window.MusicPlayerDefaultVolume = 0.2; // 默认音量（范围：0-1）
 
 // GitHub 链接配置
-window.MusicPlayerGitHubUrl = "https://github.com/kamanfaiz/Nezha-Dash-UI"; // GitHub仓库链接（留空或false则不显示图标）
+window。MusicPlayerGitHubUrl = "https://github.com/nelgevbe/Nezha-Dash-UI"; // GitHub仓库链接（留空或false则不显示图标）
 window.MusicPlayerGitHubIconSize = 28; // GitHub 图标容器大小（单位：像素）
 
 // 封面配置
 window.MusicPlayerCoverList = [ // 封面图片列表（随机分配给歌曲）
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover01.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover02.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover03.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover04.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover05.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover06.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover07.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover08.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover09.jpg",
-  "https://cdn.jsdelivr.net/gh/kamanfaiz/Nezha-Dash-UI@main/cover/cover10.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover01.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover02.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover03.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover04.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover05.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover06.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover07.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover08.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover09.jpg",
+  "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/cover/cover10.jpg",
 ];
 
 // 视觉效果配置
@@ -714,21 +714,21 @@ function initMusicPlayer() {
   }
 
   // 4.4 创建悬浮球封面区域（收起状态）
-  const ballAlbum = document.createElement("div");
-  ballAlbum.className = "music-ball-album";
-  ballAlbum.style.width = `${ballSize}px`;
-  ballAlbum.style.height = `${ballSize}px`;
+  const ballAlbum = document。createElement("div");
+  ballAlbum。className = "music-ball-album";
+  ballAlbum。style.width = `${ballSize}px`;
+  ballAlbum。style.height = `${ballSize}px`;
 
   const ballRotating = document.createElement("div");
-  ballRotating.className = "music-ball-rotating";
+  ballRotating。className = "music-ball-rotating";
 
   const ballImage = document.createElement("img");
-  ballImage.className = "music-ball-image";
-  ballImage.style.display = 'none';
+  ballImage。className = "music-ball-image";
+  ballImage。style.display = 'none';
 
   const ballOverlay = document.createElement("div");
   ballOverlay.className = "music-ball-overlay";
-  const ballIconSize = window.MusicPlayerBallIconSize || 18;
+  const ballIconSize = window。MusicPlayerBallIconSize || 18;
   ballOverlay.innerHTML = `<i class="iconfont icon-play" style="font-size: ${ballIconSize}px;"></i>`;
 
   ballRotating.appendChild(ballImage);
@@ -755,18 +755,18 @@ function initMusicPlayer() {
   expandedOverlay.className = "music-expanded-overlay";
   expandedOverlay.innerHTML = '<i class="iconfont icon-play" style="font-size: 24px;"></i>';
 
-  expandedRotating.append(expandedBase, expandedImage);
-  expandedAlbum.append(expandedRotating, expandedOverlay);
+  expandedRotating.append(expandedBase， expandedImage);
+  expandedAlbum。append(expandedRotating, expandedOverlay);
 
   // 4.6 创建信息和控制区域
   const infoSection = document.createElement("div");
-  infoSection.className = "music-info-section";
+  infoSection。className = "music-info-section";
 
   // 4.6.1 歌曲信息
   const trackInfo = document.createElement("div");
-  trackInfo.className = "music-track-info";
-  trackInfo.innerHTML = `
-    <div class="music-artist">${window.MusicPlayerTitle || "Music Player"}</div>
+  trackInfo。className = "music-track-info";
+  trackInfo。innerHTML = `
+    <div class="music-artist">${window。MusicPlayerTitle || "Music Player"}</div>
     <div class="music-title">未播放</div>
   `;
 
@@ -839,22 +839,22 @@ function initMusicPlayer() {
   waveContainer.className = "wave-container";
   
   const WAVES_COUNT = 4;
-  const waveSpeedValue = window.MusicPlayerWaveSpeed || 2.0;
+  const waveSpeedValue = window。MusicPlayerWaveSpeed || 2.0;
   const delayInterval = waveSpeedValue / WAVES_COUNT;
   for (let i = 0; i < WAVES_COUNT; i++) {
     const wave = document.createElement("div");
-    wave.className = "wave";
-    wave.style.animationDelay = `${i * delayInterval}s`;
-    waveContainer.appendChild(wave);
+    wave。className = "wave";
+    wave。style.animationDelay = `${i * delayInterval}s`;
+    waveContainer。appendChild(wave);
   }
 
-  container.append(waveContainer, mainSection);
+  container。append(waveContainer, mainSection);
 
   // 4.8 创建播放列表
   const playlistDiv = document.createElement("div");
   playlistDiv.className = "music-playlist";
   
-  const playlistHeader = document.createElement("div");
+  const playlistHeader = document。createElement("div");
   playlistHeader.className = "music-playlist-header";
   playlistHeader.innerHTML = `
     <span>播放列表</span>
@@ -952,32 +952,32 @@ function initMusicPlayer() {
     
     audio.src = track.url;
     updateInfo({
-      title: track.title,
-      artist: track.artist,
-      cover: track.cover
+      title: track。title，
+      artist: track。artist，
+      cover: track。cover
     });
 
     playlistContent.querySelectorAll('.music-playlist-item').forEach((item, i) => {
-      item.classList.toggle('active', i === currentIndex);
+      item.classList。toggle('active'， i === currentIndex);
     });
   }
 
   // 5.4 更新歌曲信息显示
   function updateInfo(info) {
-    if (info.title) {
-      trackInfo.querySelector(".music-title").textContent = info.title;
+    if (info。title) {
+      trackInfo.querySelector(".music-title")。textContent = info.title;
     }
     if (info.artist) {
       trackInfo.querySelector(".music-artist").textContent = info.artist;
     }
     
-    if (info.cover) {
+    if (info。cover) {
       ballImage.src = info.cover;
       expandedImage.src = info.cover;
       ballImage.style.display = 'block';
       expandedImage.style.display = 'block';
     } else {
-      ballImage.style.display = 'none';
+      ballImage.style。display = 'none';
       expandedImage.style.display = 'none';
     }
   }
@@ -1236,7 +1236,7 @@ function initMusicPlayer() {
     if (titleEl) titleEl.style.color = textColor;
     if (artistEl) artistEl.style.color = textColor;
     
-    [prevBtn, playBtn, nextBtn, listBtn, volumeBtn].forEach(
+    [prevBtn， playBtn, nextBtn, listBtn, volumeBtn].forEach(
       (btn) => btn && (btn.style.color = buttonColor)
     );
 
@@ -1247,8 +1247,8 @@ function initMusicPlayer() {
     const sliderBg = isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.1)";
     const sliderFill = isDark ? "rgba(255, 255, 255, 0.8)" : "rgba(36, 44, 54, 0.8)";
     const sliderThumb = isDark ? "#fff" : "#242c36";
-    container.style.setProperty('--slider-bg', sliderBg);
-    container.style.setProperty('--slider-fill', sliderFill);
+    container.style.setProperty('--slider-bg'， sliderBg);
+    container。style.setProperty('--slider-fill', sliderFill);
     container.style.setProperty('--slider-thumb', sliderThumb);
 
     const currentStrokeWidth = window.MusicPlayerStrokeWidth || 0;
@@ -1256,12 +1256,12 @@ function initMusicPlayer() {
       (isDark ? "#000" : "#fff");
     
     if (!isExpanded && currentStrokeWidth > 0) {
-      ballAlbum.style.border = `${currentStrokeWidth}px solid ${currentStrokeColor}`;
+      ballAlbum。style.border = `${currentStrokeWidth}px solid ${currentStrokeColor}`;
       ballAlbum.style.boxSizing = "border-box";
     }
 
     const waveColor = isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.4)";
-    container.style.setProperty('--wave-color', waveColor);
+    container.style。setProperty('--wave-color'， waveColor);
     
     const initialScale = 1.0;
     container.style.setProperty('--wave-initial-scale', initialScale);
@@ -1269,7 +1269,7 @@ function initMusicPlayer() {
     const progressBg = isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.1)";
     const progressFill = isDark ? "rgba(255, 255, 255, 0.8)" : "rgba(36, 44, 54, 0.8)";
     container.style.setProperty('--progress-bg', progressBg);
-    container.style.setProperty('--progress-fill', progressFill);
+    container.style。setProperty('--progress-fill'， progressFill);
 
     const playlistBg = isDark ? "rgba(40, 40, 40, 0.95)" : "rgba(255, 255, 255, 0.95)";
     const playlistHeaderBg = isDark ? "rgba(40, 40, 40, 0.98)" : "rgba(255, 255, 255, 0.98)";
@@ -1281,15 +1281,15 @@ function initMusicPlayer() {
     const playlistItemActiveBg = isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)";
     const playlistItemActiveText = isDark ? "#fff" : "#333";
 
-    container.style.setProperty('--playlist-bg', playlistBg);
-    container.style.setProperty('--playlist-header-bg', playlistHeaderBg);
+    container.style.setProperty('--playlist-bg'， playlistBg);
+    container。style.setProperty('--playlist-header-bg', playlistHeaderBg);
     container.style.setProperty('--playlist-header-text', playlistHeaderText);
     container.style.setProperty('--playlist-border', playlistBorder);
-    container.style.setProperty('--playlist-item-text', playlistItemText);
-    container.style.setProperty('--playlist-item-border', playlistItemBorder);
-    container.style.setProperty('--playlist-item-hover', playlistItemHover);
-    container.style.setProperty('--playlist-item-active-bg', playlistItemActiveBg);
-    container.style.setProperty('--playlist-item-active-text', playlistItemActiveText);
+    container.style。setProperty('--playlist-item-text'， playlistItemText);
+    container.style。setProperty('--playlist-item-border'， playlistItemBorder);
+    container.style.setProperty('--playlist-item-hover'， playlistItemHover);
+    container.style.setProperty('--playlist-item-active-bg'， playlistItemActiveBg);
+    container。style.setProperty('--playlist-item-active-text', playlistItemActiveText);
   }
 
   // ================================================================
@@ -1297,7 +1297,7 @@ function initMusicPlayer() {
   // ================================================================
   
   // 9.1 悬浮球点击事件
-  ballAlbum.onclick = () => {
+  ballAlbum。onclick = () => {
     expandPlayer();
     cancelInitialAutoCollapse();
   };
