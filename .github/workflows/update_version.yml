@@ -12,25 +12,20 @@ jobs:
     - name: 检出代码
       uses: actions/checkout@v4
       with:
-        # 获取完整的历史记录，以便能提交
         fetch-depth: 0 
         ref: main
         
     - name: 提取新版本号
       id: get_version
       run: echo "VERSION=$(echo ${{ github.ref_name }} | sed 's/v//g')" >> $GITHUB_OUTPUT
-      # 注：github.ref_name 就是新的 Tag 名称，例如 v1.0.2
       
-    - name: 更新 js/version.js 文件
+    - name: 更新 version.js 文件
       run: |
         VERSION_TAG="${{ github.ref_name }}"
-        # 使用 sed 命令替换文件内容
-        sed -i "s/const VERSIONS = '.*'/const VERSIONS = '${VERSION_TAG}'/" js/version.js
+        sed -i "s/const VERSIONS = '.*'/const VERSIONS = '${VERSION_TAG}'/" version.js
         
     - name: 提交更新后的文件
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "🤖 自动更新 js/version.js 版本号到 ${{ github.ref_name }}"
-        file_pattern: js/version.js
-        # 使用 GitHub Token 进行提交，确保提交是由 Action 发起的
-        token: ${{ secrets.GITHUB_TOKEN }}
+        commit_message: "🤖 自动更新 version.js 版本号到 ${{ github.ref_name }}"
+        file_pattern: version.js
