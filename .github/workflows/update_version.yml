@@ -1,4 +1,4 @@
-name: Auto Update Version JS
+name: Auto Update Version
 
 on:
   push:
