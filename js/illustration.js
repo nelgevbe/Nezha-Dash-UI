@@ -15,10 +15,10 @@ function initIllustration() {
   // 插图样式设置函数
   const setupIllustration = () => {
     img.style.position = "absolute";
-    img.style.right = "-10px";
-    img.style.top = "-120px";
+    img.style.right = "30px";
+    img.style.top = "-80px";
     img.style.zIndex = "10";
-    img.style.width = "120px";
+    img.style.width = "200px";
     img.style.transition =
       "opacity 0.4s ease-in-out, transform 0.4s ease-in-out"; // 减少过渡时间为0.4秒，让动画更快
     img.style.opacity = "0";
@@ -254,3 +254,4 @@ if (document.readyState === 'loading') {
 } else {
   initIllustration();
 }
+
