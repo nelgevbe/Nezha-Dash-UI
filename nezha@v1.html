@@ -1,53 +1,48 @@
 <!-- 引入阿里巴巴图标矢量库 !-->
 <head>
-  <link
-    rel="stylesheet"
-    href="//at.alicdn.com/t/c/font_4956031_5kxc4fexu39.css"
-  />
+  <link
+    rel="stylesheet"
+    href="https://at.alicdn.com/t/c/font_4956031_5kxc4fexu39.css"
+  />
   <!-- 替换为您的 Iconfont 链接 -->
 </head>
-
-<!-- 哪吒面板界面美化 - 模块化版本 -->
-<script>
-  // ------------------ 哪吒面板基础配置 ------------------
-  window.CustomBackgroundImage = "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/img/Wallpaper.jpg"; // 【PC端背景】桌面端页面的主背景图片URL
-  window.CustomMobileBackgroundImage = "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/img/Wallpaper.jpg"; // 【移动端背景】移动端页面的主背景图片URL
-  window.CustomLogo = "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/img/Pilgrim.png"; // 【LOGO】页面左上角的LOGO图片URL
-  window.CustomDesc = "Nezha"; // 【描述】LOGO下方的描述文字
-  window.ShowNetTransfer = true; // 【流量显示】是否在卡片上显示实时上下行流量 (true/false)
-  window.ForceCardInline = false; // 【卡片排列】是否强制所有服务器卡片在同一行显示 (true/false)
-  window.DisableAnimatedMan = true; // 【人物动画】是否禁用看板娘动画 (true/false)
-  window.CustomIllustration = "https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/img/Candice.png"; // 【自定义插图】右下角的插图URL (需禁用人物动画)
-  window.FixedTopServerName = false; // 【名称位置】是否将服务器名称固定在卡片顶部 (true/false)
-  window.ForceTheme = ""; // 【强制主题】强制使用指定主题 ("light" 或 "dark", 留空则跟随系统)
-</script>
 
 <!-- 加载 version.js 版本文件 -->
 <script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/version.js"></script>
 
-<!-- 动态加载模块化文件 -->
+<!-- 哪吒面板界面美化 - 模块化版本 -->
 <script>
-  if (typeof VERSIONS !== 'undefined') {
-    const BASE_URL = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/js/`;
-    
-    // 想要加载的模块列表(不用的，直接注释或删除)
-    const modules = [
-      //'custom-links.js',    // 自定义链接
-      'illustration.js',      // 自定义插图
-      'visitor-info.js',      // 访客信息面板
-      'fireworks.js',         // 烟花特效
-      'rain.js',              // 下雨特效
-      'music-player.js'       // 音乐播放器
-    ];
+  if (typeof VERSIONS !== 'undefined') {
+    // ------------------ 哪吒面板基础配置 ------------------
+    // 注意：使用反引号 (`) 包裹字符串，才能解析 ${VERSIONS}
+    window.CustomBackgroundImage = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/img/Wallpaper.jpg`; // 【PC端背景】桌面端页面的主背景图片URL
+    window.CustomMobileBackgroundImage = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/img/Wallpaper.jpg`; // 【移动端背景】移动端页面的主背景图片URL
+    window.CustomLogo = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/img/Pilgrim.png`; // 【LOGO】页面左上角的LOGO图片URL
+    window.CustomDesc = "Nezha"; // 【描述】LOGO下方的描述文字
+    window.ShowNetTransfer = true; // 【流量显示】是否在卡片上显示实时上下行流量 (true/false)
+    window.ForceCardInline = false; // 【卡片排列】是否强制所有服务器卡片在同一行显示 (true/false)
+    window.DisableAnimatedMan = true; // 【看板娘】是否禁用哪吒小人 (true/false)
+    window.CustomIllustration = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/img/Candice.png`; // 【自定义看板娘】需禁用默认哪吒小人
+    window.FixedTopServerName = false; // 【名称位置】是否将服务器名称固定在卡片顶部 (true/false)
+    window.ForceTheme = ""; // 【强制主题】强制使用指定主题 ("light" 或 "dark", 留空则跟随系统)
 
-    modules.forEach(file => {
-      const script = document.createElement('script');
-      script.src = BASE_URL + file;
-      document.head.appendChild(script);
-    });
-  }
+    // ------------------ 动态加载功能模块 ------------------
+    const BASE_URL = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/js/`;
+    
+    // 想要加载的模块列表（不需要可注释掉或直接删除）
+    const modules = [
+      //'custom-links.js',    // 自定义链接
+      'illustration.js',      // 自定义插图
+      'visitor-info.js',      // 访客信息面板
+      'fireworks.js',         // 烟花特效
+      'rain.js',              // 下雨特效
+      'music-player.js'       // 音乐播放器
+    ];
+
+    modules.forEach(file => {
+      const script = document.createElement('script');
+      script.src = BASE_URL + file;
+      document.head.appendChild(script);
+    });
+  }
 </script>
-
-
-
-
