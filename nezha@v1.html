@@ -22,6 +22,10 @@
   window.ForceTheme = ""; // 【强制主题】强制使用指定主题 ("light" 或 "dark", 留空则跟随系统)
 </script>
 
+<!-- 加载 version.js 版本文件 -->
+<script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/version.js"></script>
+
+<!-- 动态加载模块化文件 -->
 <script>
   if (typeof VERSIONS !== 'undefined') {
     const BASE_URL = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/js/`;
