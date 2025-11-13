@@ -38,7 +38,7 @@ window.MusicPlayerAPIUrl = "https://music.zeabur.app/api/music/list"; // 音乐�
 window.MusicPlayerDefaultVolume = 0.2; // 默认音量（范围：0-1）
 
 // GitHub 链接配置
-window.MusicPlayerGitHubUrl = "https://github.com/kamanfaiz/Nezha-Dash-UI"; // GitHub仓库链接（留空或false则不显示图标）
+window.MusicPlayerGitHubUrl = "https://github.com/nelgevbe/Nezha-Dash-UI"; // GitHub仓库链接（留空或false则不显示图标）
 window.MusicPlayerGitHubIconSize = 28; // GitHub 图标容器大小（单位：像素）
 
 // 封面配置
