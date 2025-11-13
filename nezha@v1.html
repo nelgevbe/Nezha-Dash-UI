@@ -22,20 +22,28 @@
   window.ForceTheme = ""; // 【强制主题】强制使用指定主题 ("light" 或 "dark", 留空则跟随系统)
 </script>
 
-<!-- 自定义链接 -->
-<script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/custom-links.js"></script>
+<script>
+  if (typeof VERSIONS !== 'undefined') {
+    const BASE_URL = `https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@${VERSIONS}/js/`;
+    
+    // 想要加载的模块列表(不用的，直接注释或删除)
+    const modules = [
+      //'custom-links.js',    // 自定义链接
+      'illustration.js',      // 自定义插图
+      'visitor-info.js',      // 访客信息面板
+      'fireworks.js',         // 烟花特效
+      'rain.js',              // 下雨特效
+      'music-player.js'       // 音乐播放器
+    ];
 
-<!-- 自定义插图 -->
-<script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/illustration.js"></script>
+    modules.forEach(file => {
+      const script = document.createElement('script');
+      script.src = BASE_URL + file;
+      document.head.appendChild(script);
+    });
+  }
+</script>
 
-<!-- 访客信息面板 -->
-<script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/visitor-info.js"></script>
 
-<!-- 烟花特效 -->
-<script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/fireworks.js"></script>
 
-<!-- 下雨特效 -->
-<script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/rain.js"></script>
 
-<!-- 音乐播放器 -->
-<script src="https://cdn.jsdelivr.net/gh/nelgevbe/Nezha-Dash-UI@main/js/music-player.js"></script>
