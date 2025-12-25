@@ -1,7 +1,6 @@
 name: Auto Update Version
 
 on:
-  workflow_dispatch:  # 允许手动运行
   push:
     tags:
       - 'v*.*.*' # 匹配所有 vX.Y.Z 格式的 Git Tag
