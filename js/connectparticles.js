@@ -23,7 +23,7 @@
             mouseDist: 200,         // 最小粒子数限制
             repulseRadius: 250,     // 弹开感应范围
             repulseStrength: 12,    // 弹开力度
-            adsorption: 0.005,      // 吸附力度
+            adsorption: 0.001,      // 吸附力度
             friction: 0.97,         // 弹开后的减速摩擦力
             color: "255, 255, 255"  // 粒子和线的颜
         };
@@ -142,3 +142,4 @@
         initParticles();
     }
 })();
+
