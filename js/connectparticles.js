@@ -1,133 +1,144 @@
 /**
  * =================================================================
  * Nezha-UI 背景连线粒子特效模块
- * @description 在页面背景上渲染随机运动的粒子，并在它们靠近时连线。
+ * @description 柔和吸附 + 平滑点击弹开
  * =================================================================
  */
 
 // ------------------ 连线粒子特效配置 ------------------
-window.EnableParticleEffect = true; // 是否启用粒子特效 (true/false)
+(function() {
+    // 检查是否已存在，防止重复初始化
+    if (window.EnableParticleEffect) return;
+    window.EnableParticleEffect = true;
 
-function initParticles() {
-  if (!window.EnableParticleEffect) return;
+    const initParticles = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        let w, h, particles = [];
+        
+        // --- 核心配置 ---
+        const cfg = {
+            density: 0.00018,       // 粒子密度。值越小，粒子越稀疏。
+            connectDist: 150,       // 最大粒子数限制
+            mouseDist: 200,         // 最小粒子数限制
+            repulseRadius: 250,     // 弹开感应范围
+            repulseStrength: 12,    // 弹开力度
+            adsorption: 0.005,      // 吸附力度
+            friction: 0.97,         // 弹开后的减速摩擦力
+            color: "255, 255, 255"  // 粒子和线的颜
+        };
 
-  const canvas = document.createElement("canvas");
-  Object.assign(canvas.style, {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    width: "100%",
-    height: "100%",
-    pointerEvents: "none",
-    zIndex: "1", // 确保在背景和内容之间
-  });
-  document.body.appendChild(canvas);
+        const mouse = { x: null, y: null, isRepelling: false };
+        let timer = null;
 
-  const ctx = canvas.getContext("2d");
-  let w, h;
-  let particles = [];
-  let currentParticleCount = 0;
+        // 设置 Canvas 样式
+        Object.assign(canvas.style, {
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            zIndex: "0", // 建议设为 0 或 -1，确保不遮挡内容
+            opacity: "0.8"
+        });
+        document.body.appendChild(canvas);
 
-  // --- 连线粒子特效专用配置 ---
-  const DENSITY_FACTOR = 0.00018; // 粒子密度。值越小，粒子越稀疏。
-  const MAX_PARTICLES = 150;      // 最大粒子数限制
-  const MIN_PARTICLES = 60;       // 最小粒子数限制
-  const CONNECT_DISTANCE = 150;   // 粒子连线的最大距离 (像素)
-  const BASE_COLOR = "255, 255, 255"; // 粒子和线的颜色 (RGB)
+        const resize = () => {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            const count = Math.max(60, Math.min(Math.floor(w * h * cfg.density), 150));
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                const p = {
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: (Math.random() - 0.5) * 0.6,
+                    size: Math.random() * 2 + 1,
+                    alpha: Math.random() * 0.5 + 0.5
+                };
+                p.ovx = p.vx;
+                p.ovy = p.vy;
+                particles.push(p);
+            }
+        };
 
-  const resize = () => {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
+        window.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener("mouseout", () => { mouse.x = null; mouse.y = null; });
+        window.addEventListener("mousedown", () => {
+            if (mouse.x === null) return;
+            mouse.isRepelling = true;
+            clearTimeout(timer);
+            timer = setTimeout(() => { mouse.isRepelling = false; }, 600);
+            particles.forEach(p => {
+                const dx = p.x - mouse.x;
+                const dy = p.y - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < cfg.repulseRadius) {
+                    const force = (cfg.repulseRadius - dist) / cfg.repulseRadius;
+                    p.vx += (dx / dist) * force * cfg.repulseStrength;
+                    p.vy += (dy / dist) * force * cfg.repulseStrength;
+                }
+            });
+        });
 
-    const calculatedCount = Math.floor(w * h * DENSITY_FACTOR);
-    const newCount = Math.max(MIN_PARTICLES, Math.min(calculatedCount, MAX_PARTICLES));
+        const animate = () => {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach((p) => {
+                if (Math.abs(p.vx) > Math.abs(p.ovx)) p.vx *= cfg.friction;
+                if (Math.abs(p.vy) > Math.abs(p.ovy)) p.vy *= cfg.friction;
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0 || p.x > w) p.vx *= -1;
+                if (p.y < 0 || p.y > h) p.vy *= -1;
 
-    if (newCount !== currentParticleCount) {
-      currentParticleCount = newCount;
-      particles = []; // 清空数组
-      for (let i = 0; i < currentParticleCount; i++) {
-        const particle = {};
-        resetParticle(particle);
-        particles.push(particle);
-      }
+                ctx.fillStyle = `rgba(${cfg.color}, ${p.alpha})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 粒子间连线
+                particles.forEach(p2 => {
+                    if (p === p2) return;
+                    const d2 = (p.x - p2.x)**2 + (p.y - p2.y)**2;
+                    if (d2 < cfg.connectDist**2) {
+                        const a = (1 - d2 / cfg.connectDist**2) * 0.2;
+                        ctx.strokeStyle = `rgba(${cfg.color}, ${a})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+
+                // 鼠标交互
+                if (mouse.x !== null && !mouse.isRepelling) {
+                    const dx = p.x - mouse.x, dy = p.y - mouse.y;
+                    const distSq = dx*dx + dy*dy;
+                    if (distSq < cfg.mouseDist**2) {
+                        if (distSq > 2000) {
+                            p.x -= dx * cfg.adsorption;
+                            p.y -= dy * cfg.adsorption;
+                        }
+                        const a = (1 - distSq / cfg.mouseDist**2) * 0.4;
+                        ctx.strokeStyle = `rgba(${cfg.color}, ${a})`;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        };
+
+        window.addEventListener("resize", resize);
+        resize();
+        animate();
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initParticles);
+    } else {
+        initParticles();
     }
-  };
-  window.addEventListener("resize", resize);
-
-  function resetParticle(particle) {
-    particle.x = Math.random() * w;
-    particle.y = Math.random() * h;
-    
-    // 赋予粒子随机的水平(vx)和垂直(vy)速度，使其缓慢移动
-    const speed = 0.5; // 基础速度
-    particle.vx = (Math.random() - 0.5) * speed; // -0.25 到 +0.25
-    particle.vy = (Math.random() - 0.5) * speed; 
-
-    // 随机大小和不透明度
-    particle.size = Math.random() * 2 + 1; // 1 到 3 像素
-    particle.alpha = Math.random() * 0.5 + 0.5; // 0.5 到 1.0
-  }
-
-  // 初始加载时调用resize
-  resize();
-
-  function animate() {
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = `rgba(${BASE_COLOR}, 1)`; // 粒子颜色
-
-    particles.forEach((p) => {
-      // 1. 更新粒子位置
-      p.x += p.vx;
-      p.y += p.vy;
-
-      // 边界反弹逻辑：当粒子碰到边缘时反转速度
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
-      
-      // 2. 绘制粒子
-      ctx.globalAlpha = p.alpha;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    // 3. 连线逻辑
-    for (let i = 0; i < currentParticleCount; i++) {
-      for (let j = i + 1; j < currentParticleCount; j++) {
-        const p1 = particles[i];
-        const p2 = particles[j];
-
-        // 计算距离平方
-        const distSq = (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2;
-        const connectDistSq = CONNECT_DISTANCE ** 2;
-
-        if (distSq < connectDistSq) {
-          // 距离越近，线越不透明
-          const alpha = 1 - (distSq / connectDistSq);
-          ctx.strokeStyle = `rgba(${BASE_COLOR}, ${alpha})`;
-          ctx.lineWidth = 0.5; 
-
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
-        }
-      }
-    }
-    
-    // 重置全局不透明度
-    ctx.globalAlpha = 1; 
-    
-    requestAnimationFrame(animate);
-  }
-  animate();
-}
-
-// ================================================================
-// 自动初始化
-// ================================================================
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initParticles);
-} else {
-  initParticles();
-}
+})();
