@@ -1,1 +1,1 @@
-const VERSIONS = 'v1.0.9';
+const VERSIONS = 'v1.1.0';
